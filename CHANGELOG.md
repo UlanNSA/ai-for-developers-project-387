@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.4.0](https://github.com/UlanNSA/ai-for-developers-project-387/compare/v0.3.0...v0.4.0) (2026-11-15)
+
+
+### Features
+
+* **frontend:** show upcoming booking duration ([6c3d043](https://github.com/UlanNSA/ai-for-developers-project-387/commit/6c3d043877467ccf0c9ad7fa283cb851fa112c7d))
+
+
+### Bug Fixes
+
+* **ci:** review pull requests opened by OpenCode ([a98d30c](https://github.com/UlanNSA/ai-for-developers-project-387/commit/a98d30cc2d0e2c2e723222c6f771d1cddb6739c9)), closes [#6](https://github.com/UlanNSA/ai-for-developers-project-387/issues/6)
+* **ci:** use the verified mise action pin for audits ([d453600](https://github.com/UlanNSA/ai-for-developers-project-387/commit/d45360080ab0bac6f6035de8ddb639d802bbb647)), closes [#12](https://github.com/UlanNSA/ai-for-developers-project-387/issues/12)
+
 ## [0.3.0](https://github.com/UlanNSA/ai-for-developers-project-386/compare/v0.2.0...v0.3.0) (2026-11-02)
 
 
