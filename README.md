@@ -131,6 +131,10 @@ SSL-проверку не отключаем. В репозитории толь
 - [Первый ручной аудит](https://github.com/UlanNSA/ai-for-developers-project-387/actions/runs/43762139169) сохранил отчёт и вывод OpenCode и создал [учебный Issue №16](https://github.com/UlanNSA/ai-for-developers-project-387/issues/16). [Повторный аудит](https://github.com/UlanNSA/ai-for-developers-project-387/actions/runs/43762215239) вернул ссылку на тот же Issue. Артефакт каждого запуска содержит `report.json`, `agent.txt` и `publication.txt`.
 
 
+### Личный вывод
+
+> Это было муторно, но интересно.
+
 ## Docker и деплой
 
 Приложение собирается в один образ (`Dockerfile` в корне): Ktor раздаёт и API, и собранный React-frontend из одного процесса. Сборка в три этапа: Node 24 (frontend) → Gradle на JDK 21 (backend, `installDist`) → JRE 21 без root. Образ слушает порт из переменной `PORT` (по умолчанию 8080), `GET /` возвращает 200, ссылки `/owner` и `/book/<id>` работают при прямом переходе и обновлении страницы, неизвестные `/api/...` дают 404.
