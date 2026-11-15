@@ -80,13 +80,13 @@ test('lists bookings with type title, owner-zone time with a label, guest name a
   const items = await screen.findAllByRole('listitem');
   expect(items).toHaveLength(2);
   expect(within(items[0]).getByText('Консультация')).toBeTruthy();
-  expect(items[0].textContent).toContain('09:00–09:30');
+  expect(items[0].textContent).toContain('09:00–09:30 (30 мин)');
   expect(items[0].textContent).not.toContain('08:00');
   expect(items[0].textContent).toContain('3 ноября 2026');
   expect(within(items[0]).getByText(/Борис/)).toBeTruthy();
   expect(within(items[0]).getByText(/boris@example\.com/)).toBeTruthy();
   expect(within(items[1]).getByText('Знакомство')).toBeTruthy();
-  expect(items[1].textContent).toContain('09:15–09:30');
+  expect(items[1].textContent).toContain('09:15–09:30 (15 мин)');
   expect(screen.getByText('Время указано в часовом поясе Владельца: Asia/Almaty')).toBeTruthy();
 });
 
