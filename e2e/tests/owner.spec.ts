@@ -148,7 +148,7 @@ test.describe('Owner upcoming bookings', () => {
     await expect(items).toHaveCount(1);
     await expect(items.first()).toContainText('Консультация');
     await expect(items.first()).toContainText('вт, 3 ноября 2026');
-    await expect(items.first()).toContainText('09:00–09:30');
+    await expect(items.first()).toContainText('09:00–09:30 (30 мин)');
     await expect(items.first()).toContainText('Анна Гость, anna@example.com');
     await expect(page.getByText('Предстоящих встреч нет')).toHaveCount(0);
   });
@@ -199,5 +199,20 @@ test.describe('Owner upcoming bookings', () => {
     await request.post(`${BACKEND}/__test__/clock`, { headers: TEST_HEADERS, data: { now: '2026-11-03T09:00:00Z' } });
     await page.getByRole('button', { name: 'Обновить' }).click();
     await expect(page.getByText('Предстоящих встреч нет')).toBeVisible();
+  });
+
+  test('duration is shown even if meeting types are unavailable', async ({ page, request }) => {
+    // Make /api/meeting-types fail
+    await page.route('**/api/meeting-types', (route) => route.fulfill({ status: 500 }));
+
+    await bookViaApi(request, 'Консультация', '2026-11-03T04:00:00Z', 'Анна Гость', 'anna@example.com');
+    await page.goto('/owner');
+    await page.getByRole('button', { name: 'Обновить' }).click();
+
+    const items = page.locator('ul.owner-bookings li');
+    await expect(items).toHaveCount(1);
+    // Even if title is unknown, duration should be there.
+    await expect(items.first()).toContainText('Неизвестный тип встречи');
+    await expect(items.first()).toContainText('(30 мин)');
   });
 });

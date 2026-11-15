@@ -38,7 +38,8 @@ function BookingList({
             <strong>{titleOf(booking.meetingTypeId)}</strong>
             <div>
               {format.date.format(new Date(booking.startAt))}, {format.time.format(new Date(booking.startAt))}–
-              {format.time.format(new Date(booking.endAt))}
+              {format.time.format(new Date(booking.endAt))} (
+              {Math.round((new Date(booking.endAt).getTime() - new Date(booking.startAt).getTime()) / (1000 * 60))} мин)
             </div>
             <div>
               {booking.guestName}, {booking.guestEmail}
