@@ -124,6 +124,13 @@ SSL-проверку не отключаем. В репозитории толь
 Чтобы показать создание задачи на заведомо воспроизводимом примере, запустите **Run workflow** с параметром `training_report`. В этом режиме образ не запускается, входные данные синтетические, а Issue помечено как учебное. Повторный запуск с тем же отчётом должен вывести ссылку на существующую задачу. Отчёт, ответ агента и результат публикации сохраняются в артефакте `calendar-audit-report`.
 
 
+### Результаты демонстрации
+
+- [Входящее обращение](https://github.com/UlanNSA/ai-for-developers-project-387/issues/5), [автотриаж](https://github.com/UlanNSA/ai-for-developers-project-387/actions/runs/43755806669), [спецификация](https://github.com/UlanNSA/ai-for-developers-project-387/issues/6) и тикеты [№7](https://github.com/UlanNSA/ai-for-developers-project-387/issues/7) и [№8](https://github.com/UlanNSA/ai-for-developers-project-387/issues/8).
+- [PR OpenCode](https://github.com/UlanNSA/ai-for-developers-project-387/pull/10), [независимое ревью](https://github.com/UlanNSA/ai-for-developers-project-387/pull/10#issuecomment-6901187775), [браузерный артефакт](https://github.com/UlanNSA/ai-for-developers-project-387/actions/runs/43760495134/artifacts/14180096554) для SHA `9eb42cef87685e7abc822990e00d78e84d82f28a` и [отказ до вызова модели](https://github.com/UlanNSA/ai-for-developers-project-387/pull/10#issuecomment-6901248433). Release-please открыл [PR версии 0.4.0](https://github.com/UlanNSA/ai-for-developers-project-387/pull/15).
+- [Первый ручной аудит](https://github.com/UlanNSA/ai-for-developers-project-387/actions/runs/43762139169) сохранил отчёт и вывод OpenCode и создал [учебный Issue №16](https://github.com/UlanNSA/ai-for-developers-project-387/issues/16). [Повторный аудит](https://github.com/UlanNSA/ai-for-developers-project-387/actions/runs/43762215239) вернул ссылку на тот же Issue. Артефакт каждого запуска содержит `report.json`, `agent.txt` и `publication.txt`.
+
+
 ## Docker и деплой
 
 Приложение собирается в один образ (`Dockerfile` в корне): Ktor раздаёт и API, и собранный React-frontend из одного процесса. Сборка в три этапа: Node 24 (frontend) → Gradle на JDK 21 (backend, `installDist`) → JRE 21 без root. Образ слушает порт из переменной `PORT` (по умолчанию 8080), `GET /` возвращает 200, ссылки `/owner` и `/book/<id>` работают при прямом переходе и обновлении страницы, неизвестные `/api/...` дают 404.
