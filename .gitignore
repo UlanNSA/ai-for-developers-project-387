@@ -1,0 +1,25 @@
+.idea/
+.vscode/
+
+# Claude Code agent worktrees
+.claude/worktrees/
+
+# Node
+node_modules/
+frontend/dist/
+
+# Generated from api/openapi/openapi.yaml (mise run sdk:generate)
+frontend/src/api/generated/
+
+# Gradle / Kotlin
+.gradle/
+.kotlin/
+backend/build/
+
+# api:build scratch output (fresh contract compiled for the drift check)
+api/.tmp/
+
+# Local overrides
+mise.local.toml
+.env
+.env.*
