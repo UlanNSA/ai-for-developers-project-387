@@ -1,0 +1,51 @@
+name: OpenCode issue command
+
+on:
+  issue_comment:
+    types: [created]
+
+permissions: {}
+
+jobs:
+  opencode:
+    if: |
+      github.event.issue.pull_request == null &&
+      github.event.comment.user.type == 'User' &&
+      github.triggering_actor == github.actor &&
+      contains(fromJSON('["OWNER","MEMBER","COLLABORATOR"]'), github.event.comment.author_association) &&
+      (startsWith(github.event.comment.body, '/oc ') ||
+       startsWith(github.event.comment.body, '/opencode ') ||
+       github.event.comment.body == '/oc' ||
+       github.event.comment.body == '/opencode')
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    concurrency:
+      group: opencode-issue-${{ github.event.issue.number }}
+      cancel-in-progress: false
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - name: Check model configuration
+        env:
+          MODEL: ${{ vars.OPENCODE_MODEL }}
+        run: |
+          case "$MODEL" in
+            openai/*|anthropic/*) ;;
+            *) echo "::error::Set OPENCODE_MODEL to an OpenAI or Anthropic model"; exit 1 ;;
+          esac
+
+      - name: Check out repository and its skills
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Run OpenCode
+        uses: anomalyco/opencode/github@810c0eba1a7348036f8bdf61e6632d0c36c6876c # v1.19.5 action definition
+        env:
+          OPENAI_API_KEY: ${{ startsWith(vars.OPENCODE_MODEL, 'openai/') && secrets.OPENAI_API_KEY || '' }}
+          ANTHROPIC_API_KEY: ${{ startsWith(vars.OPENCODE_MODEL, 'anthropic/') && secrets.ANTHROPIC_API_KEY || '' }}
+        with:
+          model: ${{ vars.OPENCODE_MODEL }}
+          mentions: /oc,/opencode
+          share: 'false'
