@@ -51,6 +51,9 @@ jobs:
     steps:
       # actions/checkout v7.0.1
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
 
       # jdx/mise-action v5.2.5; installs the pinned mise and the tools from mise.toml
       - uses: jdx/mise-action@6612f0ef07ed2a736cd1e00a94a065522dd41195
@@ -72,7 +75,23 @@ jobs:
       - run: mise exec -- npx playwright install --with-deps chromium
         working-directory: e2e
 
-      - run: mise run e2e
+      - name: Run browser checks on the exact head
+        id: browser
+        env:
+          EXPECTED_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+        run: |
+          actual_sha="$(git rev-parse HEAD)"
+          mkdir -p e2e/test-results
+          test "$actual_sha" = "$EXPECTED_SHA"
+          mise run e2e -- --trace on
+
+      - name: Record the tested commit and result
+        if: ${{ !cancelled() }}
+        env:
+          BROWSER_OUTCOME: ${{ steps.browser.outcome }}
+        run: |
+          mkdir -p e2e/test-results
+          printf 'sha=%s\nresult=%s\n' "$(git rev-parse HEAD)" "$BROWSER_OUTCOME" > e2e/test-results/verification.txt
 
       # actions/upload-artifact v7.0.2; also on failure, to inspect the report and traces
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
