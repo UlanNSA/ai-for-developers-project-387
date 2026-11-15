@@ -105,7 +105,7 @@ SSL-проверку не отключаем. В репозитории толь
 
 ## Агент GitHub
 
-[OpenCode GitHub App](https://github.com/apps/opencode-agent) устанавливается на репозиторий 387. В **Settings → Secrets and variables → Actions** задайте переменную `OPENCODE_MODEL` в формате `openai/<модель>` или `anthropic/<модель>`. Добавьте секрет `OPENAI_API_KEY` или `ANTHROPIC_API_KEY` для выбранного провайдера.
+[OpenCode GitHub App](https://github.com/apps/opencode-agent) устанавливается на репозиторий 387. По умолчанию используется `google/gemini-3.1-flash-lite`. Создайте ключ в [Google AI Studio](https://aistudio.google.com/apikey) и сохраните его как секрет `GOOGLE_GENERATIVE_AI_API_KEY` в **Settings → Secrets and variables → Actions**. Для другой модели задайте переменную `OPENCODE_MODEL` в формате `google/<модель>`, `openai/<модель>` или `anthropic/<модель>`. Для OpenAI и Anthropic используйте секрет соответствующего провайдера, `OPENAI_API_KEY` или `ANTHROPIC_API_KEY`.
 
 В открытом Issue участник с правами записи может оставить комментарий `/oc Кратко опиши задачу и вопросы для уточнения`. Workflow также принимает `/opencode`, реагирует на создание комментария и игнорирует команды ботов. Ответ появляется в Issue, логи — в Actions под **OpenCode issue command**. Воркфлоу читает репозиторий через checkout без сохранения учётных данных и использует OIDC для токена GitHub App. Публикация сессий отключена. Выбранная версия OpenCode прекратила поддержку публикации сессий, поэтому `share: false` фиксирует решение в конфигурации.
 
